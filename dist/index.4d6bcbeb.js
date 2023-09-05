@@ -833,6 +833,8 @@ parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
 var _movie = require("../store/movie");
 var _movieDefault = parcelHelpers.interopDefault(_movie);
+var _movieItem = require("./MovieItem");
+var _movieItemDefault = parcelHelpers.interopDefault(_movieItem);
 class MovieList extends (0, _sihyonn.Component) {
     constructor(){
         super();
@@ -847,13 +849,46 @@ class MovieList extends (0, _sihyonn.Component) {
       <div class="movies"></div>
     `;
         const moviesEl = this.el.querySelector(".movies");
-        moviesEl.append((0, _movieDefault.default).state.movies.map((movie)=>{
-            return movie.Title;
-        }));
+        moviesEl.append(// 여기서 끝까지 배열이니까 각각의 무비를 넣어주려면 전개연산자 이용
+        ...(0, _movieDefault.default).state.movies.map((movie)=>// props 보내줘야지
+            new (0, _movieItemDefault.default)({
+                movie
+            }).el));
     }
 }
 exports.default = MovieList;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/movie":"kq1bo"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/movie":"kq1bo","./MovieItem":"fAzE8"}],"fAzE8":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+class MovieItem extends (0, _sihyonn.Component) {
+    constructor(props){
+        super({
+            props,
+            tagName: "a"
+        });
+    }
+    render() {
+        const { movie } = this.props;
+        this.el.setAttribute("href", `#/movie?id=${movie.imdbID}`);
+        this.el.classList.add("movie");
+        this.el.style.backgroundImage = `url(${movie.Poster})`;
+        this.el.innerHTML = /*html*/ `
+    <div class="info">
+      <div class="year">
+        ${movie.Year}
+      </div>
+      <div class="title">
+        ${movie.Title}
+      </div>
+    </div>
+    
+    `;
+    }
+}
+exports.default = MovieItem;
+
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map
