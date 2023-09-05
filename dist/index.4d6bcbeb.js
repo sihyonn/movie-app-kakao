@@ -731,18 +731,21 @@ var _search = require("../components/Search");
 var _searchDefault = parcelHelpers.interopDefault(_search);
 var _movieList = require("../components/MovieList");
 var _movieListDefault = parcelHelpers.interopDefault(_movieList);
+var _movieListMore = require("../components/MovieListMore");
+var _movieListMoreDefault = parcelHelpers.interopDefault(_movieListMore);
 class Home extends (0, _sihyonn.Component) {
     render() {
         const headline = new (0, _headlineDefault.default)().el;
         const search = new (0, _searchDefault.default)().el;
         const movieList = new (0, _movieListDefault.default)().el;
+        const movieListMore = new (0, _movieListMoreDefault.default)().el;
         this.el.classList.add("container");
-        this.el.append(headline, search, movieList);
+        this.el.append(headline, search, movieList, movieListMore);
     }
 }
 exports.default = Home;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Headline":"gaVgo","../components/Search":"jqPPz","../components/MovieList":"8UDl3"}],"gaVgo":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Headline":"gaVgo","../components/Search":"jqPPz","../components/MovieList":"8UDl3","../components/MovieListMore":"3ZUar"}],"gaVgo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
@@ -808,23 +811,25 @@ var _sihyonn = require("../core/sihyonn");
 const store = new (0, _sihyonn.Store)({
     searchText: "",
     page: 1,
+    pageMax: 1,
     movies: []
 });
 exports.default = store;
 const searchMovies = async (page)=>{
-    if (page === 1) {
-        // page가 1이라는건 또 새로운 검색을 해서 들어온거니까 페이지 상태는 1로, 보여졌던 무비들은 비워줌
-        store.state.page = 1;
-        store.state.movies = [];
-    }
+    // 들어온 페이지번호로 페이지 갱신
+    store.state.page = page;
+    if (page === 1) // page가 1이라는건 또 새로운 검색을 해서 들어온거니까 페이지 상태는 1로, 보여졌던 무비들은 비워줌
+    store.state.movies = [];
     // 영화제목 검색
     const res = await fetch(`https://omdbapi.com/?apikey=7035c60c&s=${store.state.searchText}&page=${page}`);
-    const { Search } = await res.json();
+    const { Search, totalResults } = await res.json();
     // 바로 Search 하면 추가적인 페이지에 담긴 애들 못가져오니까 전개연산자
     store.state.movies = [
         ...store.state.movies,
         ...Search
     ];
+    // 전체데이터 개수에서 10개씩 가져오니까 10으로 나누면 소수점이라 올려줘야함 => 서버가 가지고 올 수 있는 최대 페이지번호
+    store.state.pageMax = Math.ceil(Number(totalResults) / 10);
 };
 
 },{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8UDl3":[function(require,module,exports) {
@@ -889,6 +894,37 @@ class MovieItem extends (0, _sihyonn.Component) {
 }
 exports.default = MovieItem;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3ZUar":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+var _movie = require("../store/movie");
+var _movieDefault = parcelHelpers.interopDefault(_movie);
+class MovieListMore extends (0, _sihyonn.Component) {
+    constructor(){
+        super({
+            tagName: "button"
+        });
+        (0, _movieDefault.default).subscribe("pageMax", ()=>{
+            // movieStore.state.page
+            // movieStore.state.pageMax
+            const { page, pageMax } = (0, _movieDefault.default).state;
+            // 맥스가 더 큰건 아직 가져올수있는 페이지가 더 남았다 의미니까
+            // hide를 제거한다 => 화면에 보여진다 의미. 숨김을 없앤거니까
+            if (pageMax > page) this.el.classList.remove("hide");
+            else this.el.classList.add("hide");
+        });
+    }
+    render() {
+        this.el.classList.add("btn", "view-more", "hide");
+        this.el.textContent = "View more...";
+        this.el.addEventListener("click", async ()=>{
+            await (0, _movie.searchMovies)((0, _movieDefault.default).state.page + 1);
+        });
+    }
+}
+exports.default = MovieListMore;
+
+},{"../core/sihyonn":"2RWRY","../store/movie":"kq1bo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map

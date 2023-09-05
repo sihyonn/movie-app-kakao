@@ -150,3 +150,15 @@ body {
 .movies .movie .info .year {
   color: var(--color-white);
 }
+
+/* MovieListMore */
+
+.view-more {
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+  display: block;
+}
+.vie-more.hide {
+  display: none;
+}
