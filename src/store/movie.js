@@ -6,10 +6,12 @@ const store = new Store({
   page: 1,
   pageMax: 1,
   movies: [],
+  loading: false,
 });
 
 export default store;
 export const searchMovies = async (page) => {
+  store.state.loading = true;
   // 들어온 페이지번호로 페이지 갱신
   store.state.page = page;
   if (page === 1) {
@@ -26,4 +28,5 @@ export const searchMovies = async (page) => {
 
   // 전체데이터 개수에서 10개씩 가져오니까 10으로 나누면 소수점이라 올려줘야함 => 서버가 가지고 올 수 있는 최대 페이지번호
   store.state.pageMax = Math.ceil(Number(totalResults) / 10);
+  store.state.loading = false;
 };

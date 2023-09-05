@@ -812,10 +812,12 @@ const store = new (0, _sihyonn.Store)({
     searchText: "",
     page: 1,
     pageMax: 1,
-    movies: []
+    movies: [],
+    loading: false
 });
 exports.default = store;
 const searchMovies = async (page)=>{
+    store.state.loading = true;
     // 들어온 페이지번호로 페이지 갱신
     store.state.page = page;
     if (page === 1) // page가 1이라는건 또 새로운 검색을 해서 들어온거니까 페이지 상태는 1로, 보여졌던 무비들은 비워줌
@@ -830,6 +832,7 @@ const searchMovies = async (page)=>{
     ];
     // 전체데이터 개수에서 10개씩 가져오니까 10으로 나누면 소수점이라 올려줘야함 => 서버가 가지고 올 수 있는 최대 페이지번호
     store.state.pageMax = Math.ceil(Number(totalResults) / 10);
+    store.state.loading = false;
 };
 
 },{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8UDl3":[function(require,module,exports) {
@@ -847,11 +850,16 @@ class MovieList extends (0, _sihyonn.Component) {
         (0, _movieDefault.default).subscribe("movies", ()=>{
             this.render();
         });
+        // loading 상태 변경되는지 감시. 변경시 호출될 콜백
+        (0, _movieDefault.default).subscribe("loading", ()=>{
+            this.render();
+        });
     }
     render() {
         this.el.classList.add("movie-list");
         this.el.innerHTML = /*html*/ `
       <div class="movies"></div>
+      <div class="the-loader hide"></div>
     `;
         const moviesEl = this.el.querySelector(".movies");
         moviesEl.append(// 여기서 끝까지 배열이니까 각각의 무비를 넣어주려면 전개연산자 이용
@@ -859,6 +867,8 @@ class MovieList extends (0, _sihyonn.Component) {
             new (0, _movieItemDefault.default)({
                 movie
             }).el));
+        const loaderEl = this.el.querySelector(".the-loader");
+        (0, _movieDefault.default).state.loading ? loaderEl.classList.remove("hide") : loaderEl.classList.add("hide");
     }
 }
 exports.default = MovieList;
