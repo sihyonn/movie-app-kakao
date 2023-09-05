@@ -13,16 +13,24 @@ export default class MovieList extends Component {
     movieStore.subscribe("loading", () => {
       this.render();
     });
+    movieStore.subscribe("message", () => {
+      this.render();
+    });
   }
   render() {
     this.el.classList.add("movie-list");
     this.el.innerHTML = /*html*/ `
-      <div class="movies"></div>
+      ${
+        movieStore.state.message
+          ? `<div class="message">${movieStore.state.message}</div>`
+          : '<div class="movies"></div>'
+      }
       <div class="the-loader hide"></div>
     `;
 
     const moviesEl = this.el.querySelector(".movies");
-    moviesEl.append(
+    // 오류메시지가 들어오면서 movies가 있을수도 있고 없을수도 있어서 없을거대비해서 ?. 사용해줘야함
+    moviesEl?.append(
       // 여기서 끝까지 배열이니까 각각의 무비를 넣어주려면 전개연산자 이용
       ...movieStore.state.movies.map(
         (movie) =>
