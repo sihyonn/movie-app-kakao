@@ -727,16 +727,19 @@ parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
 var _headline = require("../components/Headline");
 var _headlineDefault = parcelHelpers.interopDefault(_headline);
+var _search = require("../components/Search");
+var _searchDefault = parcelHelpers.interopDefault(_search);
 class Home extends (0, _sihyonn.Component) {
     render() {
         const headline = new (0, _headlineDefault.default)().el;
+        const search = new (0, _searchDefault.default)().el;
         this.el.classList.add("container");
-        this.el.append(headline);
+        this.el.append(headline, search);
     }
 }
 exports.default = Home;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Headline":"gaVgo"}],"gaVgo":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Headline":"gaVgo","../components/Search":"jqPPz"}],"gaVgo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
@@ -758,6 +761,31 @@ class Headline extends (0, _sihyonn.Component) {
     }
 }
 exports.default = Headline;
+
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jqPPz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+class Search extends (0, _sihyonn.Component) {
+    render() {
+        this.el.classList.add("search");
+        this.el.innerHTML = /* html */ `
+      <input palceholder="Enter the movie title to search!😊"/>
+      <button class="btn btn-primary">Search!</button>
+    `;
+        // 검색어창에 입력할때
+        const inputEl = this.el.querySelector("input");
+        inputEl.addEventListener("input", ()=>{});
+        // 입력하고 키보드를 칠 경우
+        inputEl.addEventListener("keydown", (event)=>{
+            event.key;
+        });
+        // 입려하고 검색 버튼을 누르는 경우
+        const btnEl = this.el.querySelector(".btn");
+        btnEl.addEventListener("click", ()=>{});
+    }
+}
+exports.default = Search;
 
 },{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
 
