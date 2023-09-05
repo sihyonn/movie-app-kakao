@@ -766,6 +766,8 @@ exports.default = Headline;
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
+var _movie = require("../store/movie");
+var _movieDefault = parcelHelpers.interopDefault(_movie);
 class Search extends (0, _sihyonn.Component) {
     render() {
         this.el.classList.add("search");
@@ -773,19 +775,45 @@ class Search extends (0, _sihyonn.Component) {
       <input placeholder="Enter the movie title to search!😊"/>
       <button class="btn btn-primary">Search!</button>
     `;
-        // 검색어창에 입력할때
+        // 검색어창에 입력하면 입력된 value값으로 상태 갱신
         const inputEl = this.el.querySelector("input");
-        inputEl.addEventListener("input", ()=>{});
-        // 입력하고 키보드를 칠 경우
+        inputEl.addEventListener("input", ()=>{
+            // movie.js에 있는 store에 searchText에 입력된 밸류값넣어주기(갱신)
+            (0, _movieDefault.default).state.searchText = inputEl.value;
+        });
+        // 입력하고 키보드를 칠 경우 영화데이터가져오는 fetch함수작동시키게
         inputEl.addEventListener("keydown", (event)=>{
-            event.key;
+            // 입력한 내용이 있고 엔터키를 쳤을때는 함수호출함
+            if (event.key === "Enter" && (0, _movieDefault.default).state.searchText.trim()) (0, _movie.searchMovies)(1);
         });
         // 입려하고 검색 버튼을 누르는 경우
         const btnEl = this.el.querySelector(".btn");
-        btnEl.addEventListener("click", ()=>{});
+        btnEl.addEventListener("click", ()=>{
+            // 검색어가 있는지만 확인
+            if ((0, _movieDefault.default).state.searchText.trim()) (0, _movie.searchMovies)(1);
+        });
     }
 }
 exports.default = Search;
+
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/movie":"kq1bo"}],"kq1bo":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "searchMovies", ()=>searchMovies);
+var _sihyonn = require("../core/sihyonn");
+// 이게 갱신되면 sihyonn에 Store 개념을 통해서 set함수 동작해서 갱신도 되고...
+const store = new (0, _sihyonn.Store)({
+    searchText: "",
+    page: 1,
+    movies: []
+});
+exports.default = store;
+const searchMovies = async (page)=>{
+    // 영화제목 검색
+    const res = await fetch(`https://omdbapi.com/?apikey=7035c60c&s=${store.state.searchText}&page=${page}`);
+    const json = await res.json();
+    console.log(json);
+};
 
 },{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
 
