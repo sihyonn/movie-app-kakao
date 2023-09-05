@@ -770,7 +770,7 @@ class Search extends (0, _sihyonn.Component) {
     render() {
         this.el.classList.add("search");
         this.el.innerHTML = /* html */ `
-      <input palceholder="Enter the movie title to search!😊"/>
+      <input placeholder="Enter the movie title to search!😊"/>
       <button class="btn btn-primary">Search!</button>
     `;
         // 검색어창에 입력할때
