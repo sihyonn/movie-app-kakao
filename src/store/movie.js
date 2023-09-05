@@ -9,10 +9,16 @@ const store = new Store({
 
 export default store;
 export const searchMovies = async (page) => {
+  if (page === 1) {
+    // page가 1이라는건 또 새로운 검색을 해서 들어온거니까 페이지 상태는 1로, 보여졌던 무비들은 비워줌
+    store.state.page = 1;
+    store.state.movies = [];
+  }
   // 영화제목 검색
   const res = await fetch(
     `https://omdbapi.com/?apikey=7035c60c&s=${store.state.searchText}&page=${page}`
   );
-  const json = await res.json();
-  console.log(json);
+  const { Search } = await res.json();
+  // 바로 Search 하면 추가적인 페이지에 담긴 애들 못가져오니까 전개연산자
+  store.state.movies = [...store.state.movies, ...Search];
 };

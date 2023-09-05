@@ -729,17 +729,20 @@ var _headline = require("../components/Headline");
 var _headlineDefault = parcelHelpers.interopDefault(_headline);
 var _search = require("../components/Search");
 var _searchDefault = parcelHelpers.interopDefault(_search);
+var _movieList = require("../components/MovieList");
+var _movieListDefault = parcelHelpers.interopDefault(_movieList);
 class Home extends (0, _sihyonn.Component) {
     render() {
         const headline = new (0, _headlineDefault.default)().el;
         const search = new (0, _searchDefault.default)().el;
+        const movieList = new (0, _movieListDefault.default)().el;
         this.el.classList.add("container");
-        this.el.append(headline, search);
+        this.el.append(headline, search, movieList);
     }
 }
 exports.default = Home;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Headline":"gaVgo","../components/Search":"jqPPz"}],"gaVgo":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Headline":"gaVgo","../components/Search":"jqPPz","../components/MovieList":"8UDl3"}],"gaVgo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
@@ -809,12 +812,48 @@ const store = new (0, _sihyonn.Store)({
 });
 exports.default = store;
 const searchMovies = async (page)=>{
+    if (page === 1) {
+        // page가 1이라는건 또 새로운 검색을 해서 들어온거니까 페이지 상태는 1로, 보여졌던 무비들은 비워줌
+        store.state.page = 1;
+        store.state.movies = [];
+    }
     // 영화제목 검색
     const res = await fetch(`https://omdbapi.com/?apikey=7035c60c&s=${store.state.searchText}&page=${page}`);
-    const json = await res.json();
-    console.log(json);
+    const { Search } = await res.json();
+    // 바로 Search 하면 추가적인 페이지에 담긴 애들 못가져오니까 전개연산자
+    store.state.movies = [
+        ...store.state.movies,
+        ...Search
+    ];
 };
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8UDl3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+var _movie = require("../store/movie");
+var _movieDefault = parcelHelpers.interopDefault(_movie);
+class MovieList extends (0, _sihyonn.Component) {
+    constructor(){
+        super();
+        // movies가 변경되는지 감시. 변경시 호출될 콜백
+        (0, _movieDefault.default).subscribe("movies", ()=>{
+            this.render();
+        });
+    }
+    render() {
+        this.el.classList.add("movie-list");
+        this.el.innerHTML = /*html*/ `
+      <div class="movies"></div>
+    `;
+        const moviesEl = this.el.querySelector(".movies");
+        moviesEl.append((0, _movieDefault.default).state.movies.map((movie)=>{
+            return movie.Title;
+        }));
+    }
+}
+exports.default = MovieList;
+
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/movie":"kq1bo"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map
