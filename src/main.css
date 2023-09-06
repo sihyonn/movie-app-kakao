@@ -318,3 +318,16 @@ header .user img {
     margin-top: 50px;
   }
 }
+
+/* ---- Footer ---- */
+footer {
+  padding: 40px 40px;
+  text-align: center;
+}
+footer a {
+  color: var(--color-white-20);
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}

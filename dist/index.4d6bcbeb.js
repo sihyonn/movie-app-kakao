@@ -586,19 +586,22 @@ root.append(new (0, _appDefault.default)().el);
 },{"./App":"2kQhy","./routes":"3L9mC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2kQhy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _theFooter = require("./components/TheFooter");
+var _theFooterDefault = parcelHelpers.interopDefault(_theFooter);
 var _theHeaer = require("./components/TheHeaer");
 var _theHeaerDefault = parcelHelpers.interopDefault(_theHeaer);
 var _sihyonn = require("./core/sihyonn");
 class App extends (0, _sihyonn.Component) {
     render() {
         const theHeader = new (0, _theHeaerDefault.default)().el;
+        const theFooter = new (0, _theFooterDefault.default)().el;
         const routerView = document.createElement("router-view");
-        this.el.append(theHeader, routerView);
+        this.el.append(theHeader, routerView, theFooter);
     }
 }
 exports.default = App;
 
-},{"./core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/TheHeaer":"k7q3p"}],"2RWRY":[function(require,module,exports) {
+},{"./core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/TheHeaer":"k7q3p","./components/TheFooter":"b3x3c"}],"2RWRY":[function(require,module,exports) {
 ///// Component /////
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -772,6 +775,34 @@ class TheHeader extends (0, _sihyonn.Component) {
     }
 }
 exports.default = TheHeader;
+
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b3x3c":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+class TheFooter extends (0, _sihyonn.Component) {
+    constructor(){
+        super({
+            tagName: "footer"
+        });
+    }
+    render() {
+        this.el.innerHTML = /*html*/ `
+      <div>
+        <a href="https://github.com/sihyonn/movie-app-kakao.git">
+          Github Repository
+        </a>
+      </div>
+      <div>
+        <a href="https://github.com/sihyonn">
+          ${new Date().getFullYear()}
+          SIHYONN
+        </a>
+      </div>
+    `;
+    }
+}
+exports.default = TheFooter;
 
 },{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3L9mC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
