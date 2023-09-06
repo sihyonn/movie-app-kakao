@@ -976,11 +976,20 @@ var _movie = require("../store/movie");
 var _movieDefault = parcelHelpers.interopDefault(_movie);
 class Movie extends (0, _sihyonn.Component) {
     async render() {
+        this.el.classList.add("container", "the-movie");
+        // 요기가 스켈레톤이 보여질자리
+        this.el.innerHTML = /*html*/ `
+      <div class="poster skeleton"></div>
+      <div class="specs">
+        <div class="title skeleton"></div>
+        <div class="labels skeleton"></div>
+        <div class="plot skeleton"></div>
+      </div>
+    `;
         await (0, _movie.getMovieDetial)(history.state.id);
         console.log((0, _movieDefault.default).state.movie);
         const { movie } = (0, _movieDefault.default).state;
         const bigPoster = movie.Poster.replace("SX300", "SX700");
-        this.el.classList.add("container", "the-movie");
         this.el.innerHTML = /* html */ `
       <div 
         style="background-image: url(${bigPoster})" 

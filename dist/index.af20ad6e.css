@@ -216,9 +216,22 @@ body {
   line-height: 1;
 }
 
+.the-movie .title.skeleton {
+  height: 70px;
+}
+
 .the-movie .labels {
   color: var(--color-primary);
   margin-bottom: 20px;
+}
+
+.the-movie .labels.skeleton {
+  height: 30px;
+}
+
+.the-movie .plot.skeleton {
+  width: 80%;
+  height: 400px;
 }
 
 .the-movie h3 {
@@ -226,6 +239,27 @@ body {
   margin: 24px 0 6px;
   font-family: Oswald, sans-serif;
   font-size: 20px;
+}
+
+@media (width <= 1200px) {
+  .the-movie {
+    gap: 30px;
+  }
+
+  .the-movie .poster {
+    --width: 300px;
+  }
+}
+
+@media (width <= 720px) {
+  .the-movie {
+    display: block;
+  }
+
+  .the-movie .title {
+    margin-top: 50px;
+    font-size: 50px;
+  }
 }
 
 /*# sourceMappingURL=index.af20ad6e.css.map */
