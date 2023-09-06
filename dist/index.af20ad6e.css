@@ -136,6 +136,20 @@ header .user img {
   width: 100%;
 }
 
+footer {
+  text-align: center;
+  padding: 40px;
+}
+
+footer a {
+  color: var(--color-white-20);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
 .headline {
   margin-bottom: 40px;
 }
@@ -322,17 +336,32 @@ header .user img {
   }
 }
 
-footer {
-  text-align: center;
-  padding: 40px;
+.about .photo {
+  background-size: cover;
+  border-radius: 10px;
+  width: 230px;
+  height: 230px;
+  margin: 0 auto 20px;
 }
 
-footer a {
-  color: var(--color-white-20);
+.about .name {
+  margin-bottom: 20px;
+  font-family: Oswald, sans-serif;
+  font-size: 40px;
+}
+
+.about p {
+  text-align: center;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.about a {
+  color: var(--color-primary);
   text-decoration: none;
 }
 
-footer a:hover {
+.about a:hover {
   text-decoration: underline;
 }
 

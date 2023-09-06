@@ -780,6 +780,8 @@ exports.default = TheHeader;
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
+var _about = require("../store/about");
+var _aboutDefault = parcelHelpers.interopDefault(_about);
 class TheFooter extends (0, _sihyonn.Component) {
     constructor(){
         super({
@@ -787,14 +789,15 @@ class TheFooter extends (0, _sihyonn.Component) {
         });
     }
     render() {
+        const { repository, github } = (0, _aboutDefault.default).state;
         this.el.innerHTML = /*html*/ `
       <div>
-        <a href="https://github.com/sihyonn/movie-app-kakao.git">
+        <a href="${repository}">
           Github Repository
         </a>
       </div>
       <div>
-        <a href="https://github.com/sihyonn">
+        <a href="${github}">
           ${new Date().getFullYear()}
           SIHYONN
         </a>
@@ -804,6 +807,19 @@ class TheFooter extends (0, _sihyonn.Component) {
 }
 exports.default = TheFooter;
 
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/about":"4RAJO"}],"4RAJO":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+exports.default = new (0, _sihyonn.Store)({
+    photo: "https://heropy.blog/css/images/logo.png",
+    name: "SIHYONN / SiHeyon",
+    email: "sihyun469@gmail.com",
+    blog: "https://sihyonn.blog",
+    github: "https://github.com/sihyonn",
+    repository: "https://github.com/sihyonn/movie-app-kakao.git"
+});
+
 },{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3L9mC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -812,6 +828,8 @@ var _home = require("./Home");
 var _homeDefault = parcelHelpers.interopDefault(_home);
 var _movie = require("./Movie");
 var _movieDefault = parcelHelpers.interopDefault(_movie);
+var _about = require("./About");
+var _aboutDefault = parcelHelpers.interopDefault(_about);
 exports.default = (0, _sihyonn.createRouter)([
     {
         path: "#/",
@@ -820,10 +838,14 @@ exports.default = (0, _sihyonn.createRouter)([
     {
         path: "#/movie",
         component: (0, _movieDefault.default)
+    },
+    {
+        path: "#/about",
+        component: (0, _aboutDefault.default)
     }
 ]);
 
-},{"../core/sihyonn":"2RWRY","./Home":"0JSNG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./Movie":"1LTyN"}],"0JSNG":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","./Home":"0JSNG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./Movie":"1LTyN","./About":"gdB30"}],"0JSNG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
@@ -1136,6 +1158,33 @@ class Movie extends (0, _sihyonn.Component) {
 }
 exports.default = Movie;
 
-},{"../core/sihyonn":"2RWRY","../store/movie":"kq1bo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
+},{"../core/sihyonn":"2RWRY","../store/movie":"kq1bo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gdB30":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+var _about = require("../store/about");
+var _aboutDefault = parcelHelpers.interopDefault(_about);
+class About extends (0, _sihyonn.Component) {
+    render() {
+        const { photo, name, email, github, blog } = (0, _aboutDefault.default).state;
+        this.el.classList.add("container", "about");
+        this.el.innerHTML = /*html*/ `
+      <div style="background-image: url(${photo})" class="photo">
+      </div>
+      <p class="name">${name}</p>
+      <p>
+        <a 
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=${email}"
+          target="_blank">${email}
+        </a>
+      </p>
+      <p><a href="${github}" target="_blank">Github</a></p>
+      <p><a href="${blog}" target="_blank">Blog</a></p>
+    `;
+    }
+}
+exports.default = About;
+
+},{"../core/sihyonn":"2RWRY","../store/about":"4RAJO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
 
 //# sourceMappingURL=index.4d6bcbeb.js.map

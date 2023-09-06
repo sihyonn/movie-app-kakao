@@ -1,6 +1,7 @@
 import { createRouter } from "../core/sihyonn";
 import Home from "./Home";
 import Movie from "./Movie";
+import About from "./About";
 
 export default createRouter([
   {
@@ -10,5 +11,9 @@ export default createRouter([
   {
     path: "#/movie",
     component: Movie,
+  },
+  {
+    path: "#/about",
+    component: About,
   },
 ]);
