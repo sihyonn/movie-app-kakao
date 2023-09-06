@@ -190,3 +190,48 @@ body {
 .vie-more.hide {
   display: none;
 }
+
+/* Movie 페이지 */
+
+.the-movie {
+  color: var(--color-white-50);
+  display: flex;
+  gap: 70px;
+}
+.the-movie .poster {
+  flex-shrink: 0;
+  --width: 500px;
+  width: var(--width);
+  height: calc(var(--width) * 3 / 2);
+  border-radius: 10px;
+  background-size: cover;
+  background-color: var(--color-area);
+}
+.the-movie .specs {
+  flex-grow: 1;
+}
+.the-movie .title {
+  font-family: "Oswald", sans-serif;
+  font-size: 70px;
+  line-height: 1;
+  color: var(--color-white);
+  margin-bottom: 30px;
+}
+
+.the-movie .labels {
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+.the-movie h3 {
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  color: var(--color-white);
+  margin: 24px 0 6px;
+}
+/* .the-movie .title.skeleton {
+  height: 70px;
+}
+.the-movie .labels {
+  color: var(--color-primary);
+  margin-bottom: 20px;
+} */

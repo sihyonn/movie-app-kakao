@@ -714,14 +714,20 @@ parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
 var _home = require("./Home");
 var _homeDefault = parcelHelpers.interopDefault(_home);
+var _movie = require("./Movie");
+var _movieDefault = parcelHelpers.interopDefault(_movie);
 exports.default = (0, _sihyonn.createRouter)([
     {
         path: "#/",
         component: (0, _homeDefault.default)
+    },
+    {
+        path: "#/movie",
+        component: (0, _movieDefault.default)
     }
 ]);
 
-},{"../core/sihyonn":"2RWRY","./Home":"0JSNG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"0JSNG":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","./Home":"0JSNG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./Movie":"1LTyN"}],"0JSNG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
@@ -745,7 +751,7 @@ class Home extends (0, _sihyonn.Component) {
 }
 exports.default = Home;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../components/Headline":"gaVgo","../components/Search":"jqPPz","../components/MovieList":"8UDl3","../components/MovieListMore":"3ZUar"}],"gaVgo":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","../components/Headline":"gaVgo","../components/Search":"jqPPz","../components/MovieList":"8UDl3","../components/MovieListMore":"3ZUar","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gaVgo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
@@ -802,10 +808,11 @@ class Search extends (0, _sihyonn.Component) {
 }
 exports.default = Search;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/movie":"kq1bo"}],"kq1bo":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","../store/movie":"kq1bo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kq1bo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "searchMovies", ()=>searchMovies);
+parcelHelpers.export(exports, "getMovieDetial", ()=>getMovieDetial);
 var _sihyonn = require("../core/sihyonn");
 // 이게 갱신되면 sihyonn에 Store 개념을 통해서 set함수 동작해서 갱신도 되고...
 const store = new (0, _sihyonn.Store)({
@@ -813,6 +820,7 @@ const store = new (0, _sihyonn.Store)({
     page: 1,
     pageMax: 1,
     movies: [],
+    movie: {},
     loading: false,
     message: "Search for the movie title!"
 });
@@ -842,6 +850,14 @@ const searchMovies = async (page)=>{
         console.log("searchMovies error:", error);
     } finally{
         store.state.loading = false;
+    }
+};
+const getMovieDetial = async (id)=>{
+    try {
+        const res = await fetch(`https://omdbapi.com?apikey=7035c60c&i=${id}&plot=full`);
+        store.state.movie = await res.json();
+    } catch (error) {
+        console.log("getMovieDetails error!", error);
     }
 };
 
@@ -887,7 +903,7 @@ class MovieList extends (0, _sihyonn.Component) {
 }
 exports.default = MovieList;
 
-},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../store/movie":"kq1bo","./MovieItem":"fAzE8"}],"fAzE8":[function(require,module,exports) {
+},{"../core/sihyonn":"2RWRY","../store/movie":"kq1bo","./MovieItem":"fAzE8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fAzE8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
@@ -949,6 +965,68 @@ class MovieListMore extends (0, _sihyonn.Component) {
     }
 }
 exports.default = MovieListMore;
+
+},{"../core/sihyonn":"2RWRY","../store/movie":"kq1bo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1LTyN":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+var _movie = require("../store/movie");
+var _movieDefault = parcelHelpers.interopDefault(_movie);
+class Movie extends (0, _sihyonn.Component) {
+    async render() {
+        await (0, _movie.getMovieDetial)(history.state.id);
+        console.log((0, _movieDefault.default).state.movie);
+        const { movie } = (0, _movieDefault.default).state;
+        this.el.classList.add("container", "the-movie");
+        this.el.innerHTML = /* html */ `
+      <div 
+        style="background-image: url(${movie.Poster})" 
+        class="poster">
+      </div>
+      <div class=""specs>
+        <div class="title">${movie.Title}</div>
+        <div class="labels">
+          <span>${movie.Released}</span>
+          &nbsp;/&nbsp;
+          <span>${movie.Runtime}</span>
+          &nbsp;/&nbsp;
+          <span>${movie.Country}</span>
+        </div>
+        <div class="plot">
+          ${movie.Plot}
+        </div>
+
+        <div>
+          <!-- 배열데이터 출력이 아니라 문자열 출력임 -->
+          <h3>Ratings</h3>
+          ${movie.Ratings.map((rating)=>{
+            return `<p>${rating.Source} = ${rating.Value}</p>`;
+        }).join("")} 
+        </div>
+        <div>
+          <h3>Actors</h3>
+          <p>${movie.Actors}</p>
+        </div>
+        <div>
+          <h3>Director</h3>
+          <p>${movie.Director}</p>
+        </div>
+        <div>
+          <h3>Production</h3>
+          <p>${movie.Production}</p>
+        </div>
+        <div>
+          <h3>Genre</h3>
+          <p>${movie.Genre}</p>
+        </div>
+
+      </div>
+    
+    
+    `;
+    }
+}
+exports.default = Movie;
 
 },{"../core/sihyonn":"2RWRY","../store/movie":"kq1bo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f3BSW","gLLPy"], "gLLPy", "parcelRequire6588")
 

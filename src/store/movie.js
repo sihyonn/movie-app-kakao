@@ -6,11 +6,12 @@ const store = new Store({
   page: 1,
   pageMax: 1,
   movies: [],
+  movie: {},
   loading: false,
   message: "Search for the movie title!",
 });
-
 export default store;
+
 export const searchMovies = async (page) => {
   store.state.loading = true;
   // 들어온 페이지번호로 페이지 갱신
@@ -39,5 +40,16 @@ export const searchMovies = async (page) => {
     console.log("searchMovies error:", error);
   } finally {
     store.state.loading = false;
+  }
+};
+
+export const getMovieDetial = async (id) => {
+  try {
+    const res = await fetch(
+      `https://omdbapi.com?apikey=7035c60c&i=${id}&plot=full`
+    );
+    store.state.movie = await res.json();
+  } catch (error) {
+    console.log("getMovieDetails error!", error);
   }
 };
