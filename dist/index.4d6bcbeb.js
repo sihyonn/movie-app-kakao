@@ -586,16 +586,19 @@ root.append(new (0, _appDefault.default)().el);
 },{"./App":"2kQhy","./routes":"3L9mC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2kQhy":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _theHeaer = require("./components/TheHeaer");
+var _theHeaerDefault = parcelHelpers.interopDefault(_theHeaer);
 var _sihyonn = require("./core/sihyonn");
 class App extends (0, _sihyonn.Component) {
     render() {
+        const theHeader = new (0, _theHeaerDefault.default)().el;
         const routerView = document.createElement("router-view");
-        this.el.append(routerView);
+        this.el.append(theHeader, routerView);
     }
 }
 exports.default = App;
 
-},{"./core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2RWRY":[function(require,module,exports) {
+},{"./core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/TheHeaer":"k7q3p"}],"2RWRY":[function(require,module,exports) {
 ///// Component /////
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -708,7 +711,69 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"3L9mC":[function(require,module,exports) {
+},{}],"k7q3p":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _sihyonn = require("../core/sihyonn");
+class TheHeader extends (0, _sihyonn.Component) {
+    constructor(){
+        super({
+            tagName: "header",
+            state: {
+                menus: [
+                    {
+                        name: "Search",
+                        href: "#/"
+                    },
+                    {
+                        name: "Movie",
+                        href: "#/movie?id=tt4520988"
+                    },
+                    {
+                        name: "About",
+                        href: "#/about"
+                    }
+                ]
+            }
+        });
+        window.addEventListener("popstate", ()=>{
+            this.render();
+        });
+    }
+    render() {
+        this.el.innerHTML = /*html*/ `
+    <a href="#/" class="logo">
+      <span>OMDbAPI</span>.COM
+    </a>
+    <nav>
+      <ul>
+      <!-- 여기서 쓸거 super의 state에 menus라고하고 만들어주기 -->
+      ${this.state.menus.map((menu)=>{
+            // 쿼리스트링이 있으면 일치여부 알기어려우니까 쿼리스트링 제거된 이동할 주소와, 현재페이지주소
+            const href = menu.href.split("?")[0];
+            const hash = location.hash.split("?")[0];
+            const isActive = href === hash;
+            return /*html*/ `
+        <li>
+          <a class="${isActive ? "active" : ""}" href="${menu.href}">
+          ${menu.name}
+        </a>
+        </li>
+        `;
+        }).join("")}
+      </ul>
+    </nav>
+    <a href="#/about" class="user">
+      <img src="https://heropy.blog/css/images/logo.png" alt="User" />
+    </a>
+
+
+    `;
+    }
+}
+exports.default = TheHeader;
+
+},{"../core/sihyonn":"2RWRY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3L9mC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _sihyonn = require("../core/sihyonn");
