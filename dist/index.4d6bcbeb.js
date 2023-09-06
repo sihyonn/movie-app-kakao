@@ -784,7 +784,9 @@ class Search extends (0, _sihyonn.Component) {
     render() {
         this.el.classList.add("search");
         this.el.innerHTML = /* html */ `
-      <input placeholder="Enter the movie title to search!😊"/>
+      <input
+      value="${(0, _movieDefault.default).state.searchText}"
+      placeholder="Enter the movie title to search!😊"/>
       <button class="btn btn-primary">Search!</button>
     `;
         // 검색어창에 입력하면 입력된 value값으로 상태 갱신
@@ -977,10 +979,11 @@ class Movie extends (0, _sihyonn.Component) {
         await (0, _movie.getMovieDetial)(history.state.id);
         console.log((0, _movieDefault.default).state.movie);
         const { movie } = (0, _movieDefault.default).state;
+        const bigPoster = movie.Poster.replace("SX300", "SX700");
         this.el.classList.add("container", "the-movie");
         this.el.innerHTML = /* html */ `
       <div 
-        style="background-image: url(${movie.Poster})" 
+        style="background-image: url(${bigPoster})" 
         class="poster">
       </div>
       <div class=""specs>
